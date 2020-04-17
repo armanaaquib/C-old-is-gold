@@ -2,19 +2,21 @@
 #include<stdlib.h>
 
 typedef unsigned short u_short;
+typedef char * String;
 #define ITERATE(start, end) for(u_short i = start; i < end; i++)
 
 typedef struct
 {
-  char **strings;
+  String *strings;
   u_short length;
 } Strings;
 
-Strings split(char *, u_short, char);
-char *create_string(char *, u_short);
-void print_strings(char **, u_short);
+Strings split(String, u_short, char);
+char *create_string(String, u_short);
+String *copy_string(String *, u_short);
+void print_strings(String *, u_short);
 
-char *create_string(char *string, u_short length)
+char *create_string(String string, u_short length)
 {
   char *new_stirng = malloc(sizeof(char *) * length);
   ITERATE(0, length)
@@ -24,11 +26,22 @@ char *create_string(char *string, u_short length)
   return new_stirng;
 }
 
-Strings split(char *string, u_short length, char c)
+String *copy_strings(String *strings, u_short length)
+{
+  String *cp_strings = malloc(sizeof(char) * length);
+  ITERATE(0, length)
+  {
+    cp_strings[i] = strings[i];
+  }
+  return cp_strings;
+}
+
+Strings split(String string, u_short length, char c)
 { 
   char temp_string[length];
+  String temp_strings[length];
   Strings strings;
-  strings.strings = malloc(sizeof(char *) * length);
+  strings.strings = NULL;
   strings.length = 0;
   if(c == '\0')
   {
@@ -36,10 +49,10 @@ Strings split(char *string, u_short length, char c)
     {
       temp_string[0] = string[i];
       temp_string[1] = '\0';
-      strings.strings[strings.length] = create_string(temp_string, 2);
+      temp_strings[strings.length] = create_string(temp_string, 2);
       strings.length++;
     }
-    strings.strings = realloc(strings.strings, sizeof(char *) * strings.length);
+    strings.strings = copy_strings(temp_strings, strings.length);
     return strings;
   }
   u_short temp_length = 0;
@@ -47,23 +60,23 @@ Strings split(char *string, u_short length, char c)
   {  
     if(string[i] == c || i == length)
     {
-      temp_string[temp_length] = '\0';
-      strings.strings[strings.length] = create_string(temp_string, temp_length);
+      temp_string[temp_length++] = '\0';
+      temp_strings[strings.length] = create_string(temp_string, temp_length);
       strings.length++;
       temp_length = 0;
       continue;
     }
     temp_string[temp_length++] = string[i];
   }
-  strings.strings = realloc(strings.strings, sizeof(char *) * strings.length);
+  strings.strings = copy_strings(temp_strings, strings.length);
   return strings;
 }
 
-void print_strings(char **strings, u_short length)
+void print_strings(String *strings, u_short length)
 {
   ITERATE(0, length)
   {
-    printf("%s|", strings[i]);
+    printf("'%s',", strings[i]);
   }
   printf("\n");
 }
