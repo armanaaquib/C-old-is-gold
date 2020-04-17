@@ -2,9 +2,22 @@
 #include <stdlib.h>
 #include "dynamic_string.h"
 
-char *create_string(String string, u_short length)
+u_short get_no_of_occurrance(String string, u_short length, char c)
 {
-  char *new_stirng = malloc(sizeof(char) * length);
+  u_short no_of_occurrance = 0;
+  ITERATE(0, length)
+  {
+    if(string[i] == c)
+    {
+      no_of_occurrance += 1;
+    }
+  }
+  return no_of_occurrance;
+}
+
+String create_string(String string, u_short length)
+{
+  String new_stirng = malloc(sizeof(char) * length);
   ITERATE(0, length)
   {
     new_stirng[i] = string[i];
@@ -12,24 +25,14 @@ char *create_string(String string, u_short length)
   return new_stirng;
 }
 
-String *copy_strings(String *strings, u_short length)
-{
-  String *cp_strings = malloc(sizeof(char *) * length);
-  ITERATE(0, length)
-  {
-    cp_strings[i] = strings[i];
-  }
-  return cp_strings;
-}
-
 String copy_string(String string, u_short length)
 {
-  String cp_string = malloc(sizeof(char) * length);
+  String copy_string = malloc(sizeof(char) * length);
   ITERATE(0, length)
   {
-    cp_string[i] = string[i];
+    copy_string[i] = string[i];
   }
-  return cp_string;
+  return copy_string;
 }
 
 void print_strings(String *strings, u_short length)
