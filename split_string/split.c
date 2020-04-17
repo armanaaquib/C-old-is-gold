@@ -13,12 +13,13 @@ typedef struct
 
 Strings split(String, u_short, char);
 char *create_string(String, u_short);
-String *copy_string(String *, u_short);
+String *copy_strings(String *, u_short);
+String copy_string(String, u_short);
 void print_strings(String *, u_short);
 
 char *create_string(String string, u_short length)
 {
-  char *new_stirng = malloc(sizeof(char *) * length);
+  char *new_stirng = malloc(sizeof(char) * length);
   ITERATE(0, length)
   {
     new_stirng[i] = string[i];
@@ -28,7 +29,7 @@ char *create_string(String string, u_short length)
 
 String *copy_strings(String *strings, u_short length)
 {
-  String *cp_strings = malloc(sizeof(char) * length);
+  String *cp_strings = malloc(sizeof(char *) * length);
   ITERATE(0, length)
   {
     cp_strings[i] = strings[i];
@@ -36,17 +37,29 @@ String *copy_strings(String *strings, u_short length)
   return cp_strings;
 }
 
+String copy_string(String string, u_short length)
+{
+  String cp_string = malloc(sizeof(char) * length);
+  ITERATE(0, length)
+  {
+    cp_string[i] = string[i];
+  }
+  return cp_string;
+}
+
 Strings split(String string, u_short length, char c)
 { 
-  char temp_string[length];
   String temp_strings[length];
   Strings strings;
+
   strings.strings = NULL;
   strings.length = 0;
+
   if(c == '\0')
   {
     ITERATE(0, length)
     {
+      char temp_string[2];
       temp_string[0] = string[i];
       temp_string[1] = '\0';
       temp_strings[strings.length] = create_string(temp_string, 2);
@@ -55,19 +68,19 @@ Strings split(String string, u_short length, char c)
     strings.strings = copy_strings(temp_strings, strings.length);
     return strings;
   }
-  u_short temp_length = 0;
-  ITERATE(0, length + 1)
+
+
+  String heap_copy_string = copy_string(string, length);
+  temp_strings[0] = heap_copy_string;
+  ITERATE(0, length)
   {  
-    if(string[i] == c || i == length)
+    if(string[i] == c)
     {
-      temp_string[temp_length++] = '\0';
-      temp_strings[strings.length] = create_string(temp_string, temp_length);
-      strings.length++;
-      temp_length = 0;
-      continue;
+      heap_copy_string[i] = '\0';
+      temp_strings[++strings.length] = heap_copy_string + i + 1;
     }
-    temp_string[temp_length++] = string[i];
   }
+  strings.length++;
   strings.strings = copy_strings(temp_strings, strings.length);
   return strings;
 }
@@ -86,13 +99,13 @@ int main(void)
   char string[] = "this is cool";
   Strings split_string;
 
-  split_string = split(string, 12, '\0');
+  split_string = split(string, 13, '\0');
   print_strings(split_string.strings, split_string.length);
 
-  split_string = split(string, 12, ' ');
+  split_string = split(string, 13, ' ');
   print_strings(split_string.strings, split_string.length);
 
-  split_string = split(string, 12, 'i');
+  split_string = split(string, 13, 'i');
   print_strings(split_string.strings, split_string.length);
 
   return 0;
