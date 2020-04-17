@@ -11,6 +11,7 @@ typedef struct
 } Strings;
 
 #define ITERATE(start, end) for(u_short i = start; i < end; i++)
+#define END_OF_STRING '\0'
 
 u_short get_no_of_occurrance(String, u_short, char);
 String create_string(String, u_short);
