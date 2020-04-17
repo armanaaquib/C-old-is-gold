@@ -1,21 +1,6 @@
-#include<stdio.h>
-#include<stdlib.h>
-
-typedef unsigned short u_short;
-typedef char * String;
-#define ITERATE(start, end) for(u_short i = start; i < end; i++)
-
-typedef struct
-{
-  String *strings;
-  u_short length;
-} Strings;
-
-Strings split(String, u_short, char);
-char *create_string(String, u_short);
-String *copy_strings(String *, u_short);
-String copy_string(String, u_short);
-void print_strings(String *, u_short);
+#include <stdio.h>
+#include <stdlib.h>
+#include "split.h"
 
 char *create_string(String string, u_short length)
 {
@@ -92,21 +77,4 @@ void print_strings(String *strings, u_short length)
     printf("'%s',", strings[i]);
   }
   printf("\n");
-}
-
-int main(void)
-{
-  char string[] = "this is cool";
-  Strings split_string;
-
-  split_string = split(string, 13, '\0');
-  print_strings(split_string.strings, split_string.length);
-
-  split_string = split(string, 13, ' ');
-  print_strings(split_string.strings, split_string.length);
-
-  split_string = split(string, 13, 'i');
-  print_strings(split_string.strings, split_string.length);
-
-  return 0;
 }
