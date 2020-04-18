@@ -1,19 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-#define ITERATE(start, end) for(unsigned index = start; index < end; index++)
-
-typedef struct
-{
-  int length;
-  int *numbers;
-} Evens;
-
-
-Evens *filter_even(int *, unsigned);
-unsigned char is_even(int);
-void print_numbers(int *, unsigned);
-void input_numbers(int *, unsigned);
+#include "heap_filter_even.h"
 
 unsigned char is_even(int number){
   return number % 2 == 0;
@@ -64,24 +51,4 @@ void input_numbers(int *array, unsigned length)
   {
     scanf("%d,", &array[index]);
   }
-}
-
-int main(void)
-{
-  unsigned length;
-  int *numbers;
-
-  printf("Enter length: ");
-  scanf("%d", &length);
-
-  numbers = malloc(sizeof(int) * length);
-
-  input_numbers(numbers, length);
-
-  Evens * evens = filter_even(numbers, length);
-
-  printf("Even Numbers: ");
-  print_numbers(evens->numbers, evens->length);
-
-  return 0;
 }
