@@ -1,18 +1,17 @@
+#include "dynamic_numbers.h"
+
 #ifndef __HEAP_EVEN_FILTER_H_
 #define __HEAP_EVEN_FILTER_H_
 
-#define ITERATE(start, end) for(unsigned index = start; index < end; index++)
+typedef unsigned char u_char;
+typedef unsigned short u_short;
 
-typedef struct
-{
-  int length;
-  int *numbers;
-} Evens;
+#ifndef ITERATE
+#define ITERATE(start, end) for(u_short i = start; i < end; i++)
+#endif
 
 
-Evens *filter_even(int *, unsigned);
-unsigned char is_even(int);
-void print_numbers(int *, unsigned);
-void input_numbers(int *, unsigned);
+Dynamic_Numbers filter_even(Numbers, u_short);
+u_char is_even(int);
 
 #endif

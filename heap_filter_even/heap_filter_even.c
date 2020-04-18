@@ -1,54 +1,36 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "dynamic_numbers.h"
 #include "heap_filter_even.h"
 
-unsigned char is_even(int number){
+u_char is_even(int number){
   return number % 2 == 0;
 }
 
-Evens *filter_even(int *numbers, unsigned count)
+Dynamic_Numbers filter_even(Numbers numbers, u_short count)
 {
   int temp_evens[count];
-  Evens *evens = malloc(sizeof(int) + sizeof(int *));
+  Dynamic_Numbers evens;
 
-  evens->length = 0;
-  evens->numbers = NULL;
+  evens.length = 0;
+  evens.numbers = NULL;
 
   ITERATE(0, count)
   {
-    int number = numbers[index];
+    int number = numbers[i];
 
     if(is_even(number))
     {
-      temp_evens[evens->length] = number;
-      evens->length += 1;
+      temp_evens[evens.length++] = number;
     }
   }
 
-  evens->numbers = malloc(sizeof(int) * evens->length);
+  evens.numbers = malloc(sizeof(int) * evens.length);
 
-  ITERATE(0, evens->length)
+  ITERATE(0, evens.length)
   {
-    evens->numbers[index] = temp_evens[index];
+    evens.numbers[i] = temp_evens[i];
   }
 
   return evens;
-}
-
-void print_numbers(int *array, unsigned length)
-{
-  ITERATE(0, length)
-  {
-    printf("%d ", array[index]);
-  }
-  printf("\n");
-}
-
-void input_numbers(int *array, unsigned length)
-{
-  printf("Enter %d numbers: ", length);
-  ITERATE(0, length)
-  {
-    scanf("%d,", &array[index]);
-  }
 }
