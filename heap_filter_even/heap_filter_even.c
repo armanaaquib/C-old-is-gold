@@ -9,11 +9,10 @@ u_char is_even(int number){
 
 Dynamic_Numbers filter_even(Numbers numbers, u_short count)
 {
-  int temp_evens[count];
   Dynamic_Numbers evens;
 
+  evens.numbers = malloc(sizeof(int) * count);
   evens.length = 0;
-  evens.numbers = NULL;
 
   ITERATE(0, count)
   {
@@ -21,16 +20,11 @@ Dynamic_Numbers filter_even(Numbers numbers, u_short count)
 
     if(is_even(number))
     {
-      temp_evens[evens.length++] = number;
+      evens.numbers[evens.length++] = number;
     }
   }
 
-  evens.numbers = malloc(sizeof(int) * evens.length);
-
-  ITERATE(0, evens.length)
-  {
-    evens.numbers[i] = temp_evens[i];
-  }
+  evens.numbers = realloc(evens.numbers, sizeof(int) * evens.length);
 
   return evens;
 }
