@@ -5,7 +5,7 @@
 List_Of_Numbers create_list_of_numbers(Numbers numbers, u_short count)
 {
   List_Of_Numbers list_of_numbers;
-  list_of_numbers.numbers = (int *)malloc(sizeof(int) * count);
+  list_of_numbers.numbers = (Numbers)malloc(sizeof(int) * count);
   list_of_numbers.count = 0;
 
   for(u_short i = 0; i < count; i++)
@@ -16,7 +16,7 @@ List_Of_Numbers create_list_of_numbers(Numbers numbers, u_short count)
   return list_of_numbers;
 }
 
-List_Of_Numbers *separate(Numbers numbers, u_short count, int start, int end)
+Array_Of_List_Of_Numbers separate(Numbers numbers, u_short count, int start, int end)
 {
   int below_numbers[count];
   u_short below_Numbers_count = 0;
@@ -45,7 +45,7 @@ List_Of_Numbers *separate(Numbers numbers, u_short count, int start, int end)
     }
   }
 
-  List_Of_Numbers *separated = (List_Of_Numbers *)malloc(sizeof(List_Of_Numbers) * 3);
+  Array_Of_List_Of_Numbers separated = (Array_Of_List_Of_Numbers)malloc(sizeof(List_Of_Numbers) * 3);
 
   separated[0] = create_list_of_numbers(below_numbers, below_Numbers_count);
   separated[1] = create_list_of_numbers(in_numbers, in_numbers_count);
@@ -54,13 +54,13 @@ List_Of_Numbers *separate(Numbers numbers, u_short count, int start, int end)
   return separated;
 }
 
-void print_list_of_numbers(List_Of_Numbers *list_of_numbers, u_short count)
+void print_list_of_numbers(Array_Of_List_Of_Numbers array_of_list_of_numbers, u_short count)
 {
   for(u_short i = 0; i < count; i++)
   {
-    for(u_short j = 0; j < list_of_numbers[i].count; j++)
+    for(u_short j = 0; j < array_of_list_of_numbers[i].count; j++)
     {
-      printf("%d ", list_of_numbers[i].numbers[j]);
+      printf("%d ", array_of_list_of_numbers[i].numbers[j]);
     }
     printf("\n");
   }
