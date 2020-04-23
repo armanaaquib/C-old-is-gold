@@ -2,56 +2,58 @@
 #include <stdlib.h>
 #include "separate.h"
 
-List_Of_Numbers create_list_of_numbers(Numbers numbers, u_short count)
+Array_Of_List_Of_Numbers create_array_of_list_of_numbers(Numbers *numbers, u_short length, Numbers counts)
 {
-  List_Of_Numbers list_of_numbers;
-  list_of_numbers.numbers = (Numbers)malloc(sizeof(int) * count);
-  list_of_numbers.count = 0;
+  Array_Of_List_Of_Numbers array_of_list_of_numbers = (Array_Of_List_Of_Numbers)malloc(sizeof(List_Of_Numbers) * length);
 
-  for(u_short i = 0; i < count; i++)
+  for(u_short i = 0; i < length; i++)
   {
-    list_of_numbers.numbers[list_of_numbers.count++] = numbers[i];
+    Numbers nums = (Numbers)malloc(sizeof(int) * counts[i]);
+    u_short count = 0;
+
+    for(u_short j = 0; j < counts[i]; j++)
+    {
+      nums[count++] = numbers[i][j];
+    }
+
+    array_of_list_of_numbers[i].numbers = nums;
+    array_of_list_of_numbers[i].count = count;
   }
 
-  return list_of_numbers;
+  return array_of_list_of_numbers;
+}
+
+u_char compare(int number, int start, int end)
+{
+  if(number < start)
+  {
+    return 0;
+  }
+
+  if(number > end)
+  {
+    return 2;
+  }
+
+  return 1;
 }
 
 Array_Of_List_Of_Numbers separate(Numbers numbers, u_short count, int start, int end)
 {
   int below_numbers[count];
-  u_short below_Numbers_count = 0;
-
   int in_numbers[count];
-  u_short in_numbers_count = 0;
-
   int above_numbers[count];
-  u_short above_numbers_count = 0;
+  Numbers separated[] = {below_numbers, in_numbers, above_numbers};
+  int counts[] = {0, 0, 0};
 
   for(u_short i = 0; i < count; i++)
   {
-    int number = numbers[i];  
-
-    if(number < start){
-      below_numbers[below_Numbers_count++] = number;
-    }
-
-    if(number >= start && number <= end){
-      in_numbers[in_numbers_count++] = number;
-    }
-
-    if(number > end)
-    {
-      above_numbers[above_numbers_count++] = number;
-    }
+    int number = numbers[i];
+    u_short index = compare(number, start, end);
+    separated[index][counts[index]++] = number;
   }
 
-  Array_Of_List_Of_Numbers separated = (Array_Of_List_Of_Numbers)malloc(sizeof(List_Of_Numbers) * 3);
-
-  separated[0] = create_list_of_numbers(below_numbers, below_Numbers_count);
-  separated[1] = create_list_of_numbers(in_numbers, in_numbers_count);
-  separated[2] = create_list_of_numbers(above_numbers, above_numbers_count);
-
-  return separated;
+  return create_array_of_list_of_numbers(separated, 3, counts);
 }
 
 void print_list_of_numbers(Array_Of_List_Of_Numbers array_of_list_of_numbers, u_short count)
