@@ -2,7 +2,6 @@
 #define __SEPARATE_H_
 
 typedef unsigned short u_short;
-typedef unsigned char u_char;
 typedef int * Numbers;
 
 typedef struct
@@ -13,9 +12,16 @@ typedef struct
 
 typedef List_Of_Numbers * Array_Of_List_Of_Numbers;
 
+typedef enum
+{
+  Below,
+  In,
+  Above
+} Belong;
+
 Array_Of_List_Of_Numbers separate(Numbers, u_short, int, int);
-u_char compare(int, int, int);
-Array_Of_List_Of_Numbers create_array_of_list_of_numbers(Numbers *, u_short, Numbers);
+List_Of_Numbers create_list_of_numbers(Numbers, u_short);
+Belong compare(int, int, int);
 void print_list_of_numbers(Array_Of_List_Of_Numbers, u_short);
 
 #endif

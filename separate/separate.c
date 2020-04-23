@@ -2,58 +2,54 @@
 #include <stdlib.h>
 #include "separate.h"
 
-Array_Of_List_Of_Numbers create_array_of_list_of_numbers(Numbers *numbers, u_short length, Numbers counts)
+List_Of_Numbers create_list_of_numbers(Numbers numbers, u_short count)
 {
-  Array_Of_List_Of_Numbers array_of_list_of_numbers = (Array_Of_List_Of_Numbers)malloc(sizeof(List_Of_Numbers) * length);
+  List_Of_Numbers list_of_numbers;
+  list_of_numbers.numbers = (Numbers)malloc(sizeof(int) * count);
+  list_of_numbers.count = 0;
 
-  for(u_short i = 0; i < length; i++)
+  for(u_short i = 0; i < count; i++)
   {
-    Numbers nums = (Numbers)malloc(sizeof(int) * counts[i]);
-    u_short count = 0;
-
-    for(u_short j = 0; j < counts[i]; j++)
-    {
-      nums[count++] = numbers[i][j];
-    }
-
-    array_of_list_of_numbers[i].numbers = nums;
-    array_of_list_of_numbers[i].count = count;
+    list_of_numbers.numbers[list_of_numbers.count++] = numbers[i];
   }
 
-  return array_of_list_of_numbers;
+  return list_of_numbers;
 }
 
-u_char compare(int number, int start, int end)
+Belong compare(int number, int start, int end)
 {
   if(number < start)
   {
-    return 0;
+    return Below;
   }
 
   if(number > end)
   {
-    return 2;
+    return Above;
   }
 
-  return 1;
+  return In;
 }
 
 Array_Of_List_Of_Numbers separate(Numbers numbers, u_short count, int start, int end)
 {
-  int below_numbers[count];
-  int in_numbers[count];
-  int above_numbers[count];
-  Numbers separated[] = {below_numbers, in_numbers, above_numbers};
+  int separated[3][count];
   int counts[] = {0, 0, 0};
 
   for(u_short i = 0; i < count; i++)
   {
     int number = numbers[i];
-    u_short index = compare(number, start, end);
-    separated[index][counts[index]++] = number;
+    Belong belong = compare(number, start, end);
+    separated[belong][counts[belong]++] = number;
   }
 
-  return create_array_of_list_of_numbers(separated, 3, counts);
+  Array_Of_List_Of_Numbers dynamic_separated = (Array_Of_List_Of_Numbers)malloc(sizeof(List_Of_Numbers) * 3);
+
+  dynamic_separated[Below] = create_list_of_numbers(separated[Below], counts[Below]);
+  dynamic_separated[In] = create_list_of_numbers(separated[In], counts[In]);
+  dynamic_separated[Above] = create_list_of_numbers(separated[Above], counts[Above]);
+
+  return dynamic_separated;
 }
 
 void print_list_of_numbers(Array_Of_List_Of_Numbers array_of_list_of_numbers, u_short count)
