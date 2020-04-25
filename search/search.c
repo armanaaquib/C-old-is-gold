@@ -64,6 +64,6 @@ int main(void)
   }
 
   free_list(list);
-  
+
   return 0;
 }

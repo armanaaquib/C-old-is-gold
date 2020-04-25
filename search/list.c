@@ -26,7 +26,6 @@ void free_list(List_Ptr list)
   }
 
   free(list);
-  list = NULL;
 }
 
 Node_Ptr create_node(int value)
