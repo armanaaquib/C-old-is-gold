@@ -1,9 +1,9 @@
 #include <stdlib.h>
 #include "list.h"
 
-List *create_list(void)
+List_Ptr create_list(void)
 {
-  List *list = (List *)malloc(sizeof(List));
+  List_Ptr list = (List_Ptr )malloc(sizeof(List));
 
   list->start = NULL;
   list->end = NULL;
@@ -12,9 +12,9 @@ List *create_list(void)
   return list;
 }
 
-Node *create_node(int value)
+Node_Ptr create_node(int value)
 {
-  Node *node = (Node *)malloc(sizeof(Node));
+  Node_Ptr node = (Node_Ptr )malloc(sizeof(Node));
 
   node->value = value;
   node->next = NULL;
@@ -22,9 +22,9 @@ Node *create_node(int value)
   return node;
 }
 
-void insert_value(List *list, int value)
+void insert_value(List_Ptr list, int value)
 {
-  Node *new_node = create_node(value);
+  Node_Ptr new_node = create_node(value);
 
   if(list->start == NULL)
   {
@@ -37,4 +37,23 @@ void insert_value(List *list, int value)
   
   list->end = new_node;
   list->count++;
+}
+
+short find_position(List_Ptr list, int value)
+{
+  Node_Ptr p_walk = list->start;
+  short position = 0;
+
+  while(p_walk != NULL)
+  {
+    if(p_walk->value == value)
+    {
+      return position;
+    }
+
+    position++;
+    p_walk = p_walk->next;
+  }
+
+  return -1;
 }

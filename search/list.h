@@ -16,8 +16,12 @@ typedef struct
   u_short count;
 } List;
 
-List *create_list(void);
-Node *create_node(int);
-void insert_value(List *, int);
+typedef Node * Node_Ptr;
+typedef List * List_Ptr;
+
+List_Ptr create_list(void);
+Node_Ptr create_node(int);
+void insert_value(List_Ptr, int);
+short find_position(List_Ptr, int value);
 
 #endif
