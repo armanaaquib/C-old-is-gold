@@ -12,6 +12,23 @@ List_Ptr create_list(void)
   return list;
 }
 
+void free_list(List_Ptr list)
+{
+  Node_Ptr p_walk = list->start;
+  Node_Ptr node_to_free;
+
+  while(p_walk != NULL)
+  {
+    node_to_free = p_walk;
+    p_walk = p_walk->next;
+    
+    free(node_to_free);
+  }
+
+  free(list);
+  list = NULL;
+}
+
 Node_Ptr create_node(int value)
 {
   Node_Ptr node = (Node_Ptr )malloc(sizeof(Node));

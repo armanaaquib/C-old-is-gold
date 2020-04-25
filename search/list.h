@@ -20,6 +20,7 @@ typedef Node * Node_Ptr;
 typedef List * List_Ptr;
 
 List_Ptr create_list(void);
+void free_list(List_Ptr);
 Node_Ptr create_node(int);
 void insert_value(List_Ptr, int);
 short find_position(List_Ptr, int value);
