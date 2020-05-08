@@ -39,8 +39,12 @@ Array_Of_List_Of_Numbers separate(Numbers numbers, u_short count, int start, int
   for(u_short i = 0; i < count; i++)
   {
     int number = numbers[i];
+
     Belong belong = compare(number, start, end);
-    separated[belong][counts[belong]++] = number;
+    u_short count = counts[belong];
+
+    separated[belong][count] = number;
+    counts[belong]++;
   }
 
   Array_Of_List_Of_Numbers dynamic_separated = (Array_Of_List_Of_Numbers)malloc(sizeof(List_Of_Numbers) * 3);
