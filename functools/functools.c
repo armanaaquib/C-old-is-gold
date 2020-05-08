@@ -3,28 +3,19 @@
 
 Int_Array create_int_array(Int_Array, unsigned);
 
-Int_Array create_int_array(Int_Array array, unsigned length)
+List_Ptr int_map(Int_Mapper mapper, Int_Array array, unsigned length)
 {
-  Int_Array new_array = (Int_Array)malloc(sizeof(int) * length);
+  List_Ptr list = (List_Ptr)malloc(sizeof(List));
+
+  list->array = (Int_Array)malloc(sizeof(int) * length);
+  list->count = length;
 
   for(unsigned i = 0; i < length; i++)
   {
-    new_array[i] = array[i];
+    list->array[i] = (*mapper)(array[i]);
   }
 
-  return new_array;
-}
-
-Int_Array int_map(Int_Mapper mapper, Int_Array array, unsigned length)
-{
-  Int_Array mapped_array = (Int_Array)malloc(sizeof(int) * length);
-
-  for(unsigned i = 0; i < length; i++)
-  {
-    mapped_array[i] = (*mapper)(array[i]);
-  }
-
-  return mapped_array;
+  return list;
 }
 
 int int_reduce(Int_Reducer reducer, Int_Array array, unsigned length, int initial_value)
@@ -37,6 +28,18 @@ int int_reduce(Int_Reducer reducer, Int_Array array, unsigned length, int initia
   }
 
   return result;
+}
+
+Int_Array create_int_array(Int_Array array, unsigned length)
+{
+  Int_Array new_array = (Int_Array)malloc(sizeof(int) * length);
+
+  for(unsigned i = 0; i < length; i++)
+  {
+    new_array[i] = array[i];
+  }
+
+  return new_array;
 }
 
 List_Ptr int_filter(Int_Predicate predicate, Int_Array array, unsigned length)

@@ -21,7 +21,7 @@ typedef int (*Int_Mapper)(int);
 typedef int (*Int_Reducer)(int, int);
 typedef Bool (*Int_Predicate)(int);
 
-Int_Array int_map(Int_Mapper, Int_Array, unsigned);
+List_Ptr int_map(Int_Mapper, Int_Array, unsigned);
 int int_reduce(Int_Reducer, Int_Array, unsigned, int);
 List_Ptr int_filter(Int_Predicate, Int_Array, unsigned);
 

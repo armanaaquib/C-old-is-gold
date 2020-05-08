@@ -43,9 +43,9 @@ int main(void)
 
   display_int_array(array, 5);
 
-  Int_Array squares = int_map(&square, array, 5);
+  List_Ptr square_list = int_map(&square, array, 5);
   printf("Squares\n");
-  display_int_array(squares, 5);
+  display_int_array(square_list->array, square_list->count);
 
   int sum = int_reduce(&add, array, 5, 0);
   printf("Sum = %d\n", sum);
