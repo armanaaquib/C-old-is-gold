@@ -10,17 +10,15 @@ void take_inputs(List_Ptr list)
 {
   int value;
 
-  while(1)
+  printf("Please enter a number:\n");
+  scanf("%d", &value);
+
+  while(value != TERMINATION_VALUE)
   {
+		insert_value(list, value);
+		
     printf("Please enter a number:\n");
     scanf("%d", &value);
-
-    if(value == TERMINATION_VALUE)
-    {
-      break;
-    }
-
-    insert_value(list, value);
   }
 
 }
@@ -41,15 +39,10 @@ int main(void)
 
   take_inputs(list);
 
-  while(1)
+	int value = ask_search_value();
+	
+  while(value != TERMINATION_VALUE)
   {
-    int value = ask_search_value();
-
-    if(value == TERMINATION_VALUE)
-    {
-      break;
-    }
-
     short position = find_position(list, value);
 
     if(position != -1)
@@ -61,9 +54,10 @@ int main(void)
       printf("%d is not present in the list\n", value);
     }
     
+		value = ask_search_value();
   }
 
   free_list(list);
-
+  
   return 0;
 }
