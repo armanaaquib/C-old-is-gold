@@ -12,3 +12,15 @@ Int_Array int_map(Int_Mapper mapper, Int_Array array, unsigned length)
 
   return mapped_array;
 }
+
+int int_reduce(Int_Reducer reducer, Int_Array array, unsigned length, int initial_value)
+{
+  int result = initial_value;
+
+  for(unsigned i = 0; i < length; i++)
+  {
+    result = (*reducer)(result, array[i]);
+  }
+
+  return result;
+}
